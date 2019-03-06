@@ -1,16 +1,20 @@
 package model;
 
+import java.util.HashSet;
+
 public class Movie {
 	private String name;
 	private int year;
+	private HashSet<Actor> actors;
 	
 	public Movie() {
-		
+		this.actors = new HashSet<Actor>();
 	}
 	
 	public Movie(String name, int year) {
 		this.name = name;
 		this.year = year;
+		this.actors = new HashSet<Actor>();
 	}
 
 	public String getName() {
@@ -27,6 +31,18 @@ public class Movie {
 
 	public void setYear(int year) {
 		this.year = year;
+	}
+	
+	public void addActor(Actor a) {
+		this.actors.add(a);
+	}
+	
+	public boolean played(Actor a) {
+		return this.actors.contains(a);
+	}
+	
+	public HashSet<Actor> getActors(){
+		return this.actors;
 	}
 
 	@Override
