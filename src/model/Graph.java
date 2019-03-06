@@ -91,7 +91,7 @@ public class Graph {
 		Actor current = finish;
 		while(current != start) {
 			list.add(current);
-			current = actors.get(current);
+			current = actors.get(current.getName());
 			System.out.println("blblbl");
 		}
 		
