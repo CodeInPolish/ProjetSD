@@ -1,17 +1,18 @@
 package model;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Actor {
-	private int id;
+	private String id;
 	private String name;
-	private HashSet<Movie> movies;
+	private Set<Movie> movies;
 	
 	public Actor() {
 		this.movies = new HashSet<Movie>();
 	}
 	
-	public Actor(String name, int id) {
+	public Actor(String name, String id) {
 		this.name = name;
 		this.id = id;
 		this.movies = new HashSet<Movie>();
@@ -33,15 +34,15 @@ public class Actor {
 		return movies.contains(m);
 	}
 	
-	public HashSet<Movie> getMovies() {
+	public Set<Movie> getMovies() {
 		return movies;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -49,7 +50,7 @@ public class Actor {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -63,7 +64,10 @@ public class Actor {
 		if (getClass() != obj.getClass())
 			return false;
 		Actor other = (Actor) obj;
-		if (id != other.id)
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -72,6 +76,8 @@ public class Actor {
 			return false;
 		return true;
 	}
+
+
 
 	
 }

@@ -1,11 +1,12 @@
 package model;
 
 import java.util.HashSet;
+import java.util.Set;
 
 public class Movie {
 	private String name;
 	private int year;
-	private HashSet<Actor> actors;
+	private Set<Actor> actors;
 	
 	public Movie() {
 		this.actors = new HashSet<Actor>();
@@ -41,7 +42,7 @@ public class Movie {
 		return this.actors.contains(a);
 	}
 	
-	public HashSet<Actor> getActors(){
+	public Set<Actor> getActors(){
 		return this.actors;
 	}
 
