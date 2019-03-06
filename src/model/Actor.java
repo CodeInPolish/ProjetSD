@@ -1,16 +1,22 @@
 package model;
 
+import java.util.HashSet;
+
 public class Actor {
+	private int id;
 	private String firstname;
 	private String lastname;
+	private HashSet<Movie> movies;
 	
 	public Actor() {
-		
+		this.movies = new HashSet<Movie>();
 	}
 	
-	public Actor(String firstname, String lastname) {
+	public Actor(String firstname, String lastname, int id) {
 		this.firstname = firstname;
 		this.lastname = lastname;
+		this.id = id;
+		this.movies = new HashSet<Movie>();
 	}
 	
 	public String getFirstname() {
@@ -27,6 +33,26 @@ public class Actor {
 	
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+	
+	public void addMovie(Movie m) {
+		movies.add(m);
+	}
+	
+	public boolean playedInMovie(Movie m) {
+		return movies.contains(m);
+	}
+	
+	public HashSet<Movie> getMovies() {
+		return movies;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	@Override
