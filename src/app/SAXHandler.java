@@ -20,12 +20,14 @@ public class SAXHandler extends DefaultHandler {
 	boolean bName = false;
 	private Map<String, Actor> actors;
 	private Map<String, Movie> movies;
+	private Map<String, String> actorsId;
 
 	public SAXHandler() {
 		this.graph = new Graph();
 		this.start = System.currentTimeMillis();
 		this.actors = new HashMap<>();
 		this.movies = new HashMap<>();
+		this.actorsId = new HashMap<>();
 	}
 
 	@Override
@@ -65,7 +67,8 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName) throws SAXException {
 		if (qName.equals("actor")) {
-			this.actors.put(this.actor.getId(), this.actor);
+			this.actors.put(this.actor.getName(), this.actor);
+			this.actorsId.put(this.actor.getId(), this.actor.getName());
 		} else if (qName.equals("movie")) {
 			this.movies.put(this.movie.getName(), this.movie);
 		}
@@ -82,9 +85,9 @@ public class SAXHandler extends DefaultHandler {
 	private void addListMovie(String list) {
 		String[] temp = list.split("\\s+");
 		for (String string : temp) {
-
-			this.movie.addActor(this.actors.get(string));
-			this.actors.get(string).addMovie(this.movie);
+			Actor a = this.actors.get(this.actorsId.get(string));
+			this.movie.addActor(a);
+			a.addMovie(this.movie);
 		}
 	}
 
