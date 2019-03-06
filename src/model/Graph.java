@@ -1,7 +1,9 @@
 package model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+
 
 public class Graph {
 	private Map<String, Actor> actors;
@@ -27,22 +29,34 @@ public class Graph {
 	}
 
 	public void calculerCheminLePlusCourt(String act1, String act2, String file) {
-		String result = bfs(act1, act2);
+		List<Link> result = bfs(act1, act2);
+		if(result != null) {
+			writeFile(result, file);
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
 	public void calculerCheminCoutMinimum(String act1, String act2, String file) {
-		String result = dijkstra(act1, act2);
+		List<Link> result = dijkstra(act1, act2);
+		if(result != null) {
+			writeFile(result, file);
+		}
+		else {
+			throw new IllegalArgumentException();
+		}
 	}
 	
-	private String bfs(String start, String finish) {
-		return "";
+	private List<Link> bfs(String start, String finish) {
+		return new ArrayList<>();
 	}
 	
-	private String dijkstra(String start, String finish) {
-		return "";
+	private List<Link> dijkstra(String start, String finish) {
+		return new ArrayList<>();
 	}
 	
-	private void writeFile(String data, String file) {
+	private void writeFile(List<Link> path, String file) {
 		
 	}
 		
