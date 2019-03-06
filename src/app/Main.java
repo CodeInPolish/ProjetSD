@@ -1,6 +1,8 @@
+package app;
 import java.io.File;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import model.Graph;
 
 public class Main {
 	public static void main(String[] args) {
