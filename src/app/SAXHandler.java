@@ -43,10 +43,10 @@ public class SAXHandler extends DefaultHandler {
 
 		} else if (qName.equals("movie")) {
 			String name = attributes.getValue("name");
+			String year = attributes.getValue("year");
 			bName = true;
-			this.movie = new Movie(name, 2000);
+			this.movie = new Movie(name, Integer.parseInt(year));
 			this.addListMovie(attributes.getValue("actors"));
-			
 
 		}
 
@@ -54,12 +54,12 @@ public class SAXHandler extends DefaultHandler {
 
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
-		if(bName) {
+		if (bName) {
 			String nameMovie = new String(ch, start, length);
 			this.movie.setName(nameMovie);
 			bName = false;
 		}
-		
+
 	}
 
 	@Override
