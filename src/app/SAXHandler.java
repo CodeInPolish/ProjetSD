@@ -45,7 +45,11 @@ public class SAXHandler extends DefaultHandler {
 			String name = attributes.getValue("name");
 			String year = attributes.getValue("year");
 			bName = true;
-			this.movie = new Movie(name, Integer.parseInt(year));
+			if(year!=null) {
+				this.movie = new Movie(name, Integer.parseInt(year));
+
+			}
+			this.movie = new Movie(name, 0);
 			this.addListMovie(attributes.getValue("actors"));
 
 		}
