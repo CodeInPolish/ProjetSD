@@ -15,8 +15,8 @@ import model.Movie;
 public class SAXHandler extends DefaultHandler {
 	private Graph graph;
 	private long start;
-	Actor actor;
-	Movie movie;
+	private Actor actor;
+	private Movie movie;
 	boolean bName = false;
 	private Map<String, Actor> actors;
 	private Map<String, Movie> movies;
@@ -47,7 +47,11 @@ public class SAXHandler extends DefaultHandler {
 			String name = attributes.getValue("name");
 			String year = attributes.getValue("year");
 			bName = true;
-			this.movie = new Movie(name, Integer.parseInt(year));
+			if(year!=null) {
+				this.movie = new Movie(name, Integer.parseInt(year));
+
+			}
+			this.movie = new Movie(name, 0);
 			this.addListMovie(attributes.getValue("actors"));
 
 		}
@@ -78,7 +82,6 @@ public class SAXHandler extends DefaultHandler {
 	public void endDocument() throws SAXException {
 		// graphe set methode
 		this.graph.setActors(actors);
-		this.graph.setMovies(movies);
 		System.out.println("End reading ! : execution time: " + (System.currentTimeMillis() - start + "ms"));
 	}
 

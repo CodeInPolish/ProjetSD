@@ -9,7 +9,6 @@ import java.util.Map;
 
 public class Graph {
 	private Map<String, Actor> actors;
-	private Map<String, Movie> movies;
 	
 	public Graph() {
 	}
@@ -20,14 +19,6 @@ public class Graph {
 
 	public void setActors(Map<String, Actor> actors) {
 		this.actors = actors;
-	}
-
-	public Map<String, Movie> getMovies() {
-		return movies;
-	}
-
-	public void setMovies(Map<String, Movie> movies) {
-		this.movies = movies;
 	}
 
 	public void calculerCheminLePlusCourt(String act1, String act2, String file) {
@@ -53,18 +44,18 @@ public class Graph {
 	private List<Link> bfs(String start, String finish) {
 		ArrayDeque<Actor> openSet = new ArrayDeque<>();
 		ArrayDeque<Actor> closedSet = new ArrayDeque<>();
-		HashMap<Actor, Actor> meta = new HashMap();
+		HashMap<Actor, Actor> meta = new HashMap<>();
 		
 		Actor startActor = actors.get(start);
 		Actor finishActor = actors.get(finish);		
 		
-		openSet.add(startActor);
+		openSet.addLast(startActor);
 		
 		while(!openSet.isEmpty()) {
-			Actor current = openSet.remove();
+			Actor current = openSet.removeFirst();
 			
 			if(finishActor.equals(current)) {
-				return constructPath(meta);
+				return constructPath(startActor, meta, finishActor);
 			}
 			
 			for(Movie m : startActor.getMovies()) {
@@ -73,15 +64,14 @@ public class Graph {
 						continue;
 					}
 					
-					if(!openSet.contains(a)) {
+					if(current != a && !openSet.contains(a)) {
 						meta.put(a, current);
-						openSet.add(a);
+						openSet.addLast(a);
 					}
 				}
 			}
 			
-			closedSet.add(current);
-			
+			closedSet.addLast(current);
 		}
 		
 		return null;
@@ -95,8 +85,20 @@ public class Graph {
 		
 	}
 	
-	private List<Link> constructPath(Map<Actor, Actor> path){
-		System.out.println(path);
+	private List<Link> constructPath(Actor start, Map<Actor, Actor> path, Actor finish){
+		List<Actor> list = new ArrayList<Actor>();
+		
+		Actor current = finish;
+		while(current != start) {
+			list.add(current);
+			current = actors.get(current);
+			System.out.println("blblbl");
+		}
+		
+		for(Actor a : list) {
+			System.out.println(a.toString());
+		}
+		
 		return null;
 	}
 		

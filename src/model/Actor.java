@@ -71,9 +71,9 @@ public class Actor {
 		return true;
 	}
 
-
-
-
-
+	@Override
+	public String toString() {
+		return "Actor [id=" + id + ", name=" + name + "]";
+	}
 	
 }
