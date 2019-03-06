@@ -4,35 +4,25 @@ import java.util.HashSet;
 
 public class Actor {
 	private int id;
-	private String firstname;
-	private String lastname;
+	private String name;
 	private HashSet<Movie> movies;
 	
 	public Actor() {
 		this.movies = new HashSet<Movie>();
 	}
 	
-	public Actor(String firstname, String lastname, int id) {
-		this.firstname = firstname;
-		this.lastname = lastname;
+	public Actor(String name, int id) {
+		this.name = name;
 		this.id = id;
 		this.movies = new HashSet<Movie>();
 	}
 	
-	public String getFirstname() {
-		return this.firstname;
+	public void setName(String name) {
+		this.name = name;
 	}
 	
-	public String getLastname() {
-		return this.lastname;
-	}
-	
-	public void setFirstname(String firstname) {
-		this.firstname = firstname;
-	}
-	
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public String getName(String name) {
+		return this.name;
 	}
 	
 	public void addMovie(Movie m) {
@@ -59,8 +49,8 @@ public class Actor {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((firstname == null) ? 0 : firstname.hashCode());
-		result = prime * result + ((lastname == null) ? 0 : lastname.hashCode());
+		result = prime * result + id;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
 
@@ -73,18 +63,15 @@ public class Actor {
 		if (getClass() != obj.getClass())
 			return false;
 		Actor other = (Actor) obj;
-		if (firstname == null) {
-			if (other.firstname != null)
-				return false;
-		} else if (!firstname.equals(other.firstname))
+		if (id != other.id)
 			return false;
-		if (lastname == null) {
-			if (other.lastname != null)
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		} else if (!lastname.equals(other.lastname))
+		} else if (!name.equals(other.name))
 			return false;
 		return true;
 	}
-	
+
 	
 }
