@@ -43,7 +43,6 @@ public class XMLWiriter {
 			for (Link link : links) {
 				val+=link.getLink().getNbActor();
 			}
-//			chemin.forEach(t->val+=t.getLink().getNbActor());
 			attr.setValue(""+val);
 			path.setAttributeNode(attr);
 			
@@ -51,28 +50,32 @@ public class XMLWiriter {
 			attr2.setValue(""+links.size());
 			path.setAttributeNode(attr2);
 			
+			int cpt = 0;
 			for (Link link : links) {
-				
-				Element actor = doc.createElement("actor");
-				actor.appendChild(doc.createTextNode(link.getStart().getName()));
-				path.appendChild(actor);
+				if(cpt==0) {
+					Element actor = doc.createElement("actor");
+					actor.appendChild(doc.createTextNode(link.getStart().getName()));
+					path.appendChild(actor);
+				}
 				
 				Element movie = doc.createElement("movie");
-				actor.appendChild(doc.createTextNode(link.getStart().getName()));
-				
+				movie.appendChild(doc.createTextNode(link.getLink().getName()));
+				path.appendChild(movie);
+
 				Attr attrMovieName = doc.createAttribute("name");
-				attr.setValue(""+links.size());
+				attrMovieName.setValue(link.getLink().getName());
 				movie.setAttributeNode(attrMovieName);
 				
 				Attr attrMovieYear = doc.createAttribute("year");
-				attr.setValue(""+link.getLink().getYear());
+				attrMovieYear.setValue(""+link.getLink().getYear());
 				movie.setAttributeNode(attrMovieYear);
-				
-				path.appendChild(actor);
+			
 
+				
 				Element actor2 = doc.createElement("actor");
 				actor2.appendChild(doc.createTextNode(link.getFinish().getName()));
 				path.appendChild(actor2);
+				cpt++;
 
 			}
 

@@ -2,11 +2,13 @@ package model;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -73,18 +75,18 @@ public class Graph {
 			
 			for (Movie m : currentActor.getMovies()) {		
 				if(!closedMovieSet.contains(m)) {
-					System.out.println("movie: "+m.getName());
+					//System.out.println("movie: "+m.getName());
 					for (Actor a : m.getActors()) {
 						if (closedSet.contains(a)) {
 							continue;
 						}
 						meta.put(a, currentActor);
 						openSet.addLast(a);
+						closedSet.add(a);						
 					}
 					closedMovieSet.add(m);
 				}
 			}
-			closedSet.add(currentActor);
 		}
 		return null;
 	}
@@ -134,25 +136,36 @@ public class Graph {
 	}
 
 	private void writeFile(List<Link> path, String file) {
+		Collections.reverse(path);
+		path.forEach(t->System.out.println(t.toString()));
 		XMLWiriter xw = new XMLWiriter();
 		xw.writeXMLResultFile(file, path);
 
 	}
 
 	private List<Link> constructPath(Actor start, Map<Actor, Actor> path, Actor finish) {
-		List<Actor> list = new ArrayList<Actor>();
+		List<Link> list = new LinkedList<Link>();
 
-		System.out.println("Path found!");
+
+		System.out.println("Path found! " + finish.getName() );
 		Actor currentActor = finish;
-		while (currentActor != null && currentActor != start) {
-			list.add(currentActor);
+		while (path.get(currentActor) != null) {
+			Movie tempMovie = getLink(path.get(currentActor), currentActor);
+			list.add(new Link(path.get(currentActor),tempMovie , currentActor));
 			currentActor = path.get(currentActor);
+		}		
+		
+		return list;
+	}
+	
+	private Movie getLink(Actor a1, Actor a2) {
+		
+		for (Movie m : a1.getMovies()) {
+			if(!a2.getMovies().contains(m)) {
+				System.out.println("## " + m.getName());
+				return m;
+			}
 		}
-
-		for (Actor a : list) {
-			System.out.println(a.toString());
-		}
-
 		return null;
 	}
 

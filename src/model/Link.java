@@ -22,6 +22,13 @@ public class Link {
 	public Actor getFinish() {
 		return finish;
 	}
+
+	@Override
+	public String toString() {
+		return "Link [start=" + start + ", link=" + link + ", finish=" + finish + "]";
+	}
+	
+	
 	
 	
 }
