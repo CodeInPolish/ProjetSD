@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE path SYSTEM "result.dtd">
-<path cost="247" nbMovies="3">
-	<actor>Macaulay Culkin</actor>
-	<movie name="Good Son, The" year="1993">Good Son, The</movie>
-	<actor>Gerry Becker</actor>
-	<movie name="Cell, The" year="2000">Cell, The</movie>
-	<actor>Leonardo DiCaprio</actor>
-	<movie name="Celebrity" year="1998">Celebrity</movie>
-	<actor>Guillaume Canet</actor>
+<path cost="303" nbMovies="3">
+<actor>Macaulay Culkin</actor>
+<movie name="Home Alone" year="1990">Home Alone</movie>
+<actor>Gerry Becker</actor>
+<movie name="Celebrity" year="1998">Celebrity</movie>
+<actor>Leonardo DiCaprio</actor>
+<movie name="Beach, The" year="2000">Beach, The</movie>
+<actor>Guillaume Canet</actor>
 </path>

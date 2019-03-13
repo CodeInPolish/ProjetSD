@@ -160,12 +160,25 @@ public class Graph {
 	
 	private Movie getLink(Actor a1, Actor a2) {
 		
+		System.out.println("a1 : " + a1.getName());
+		System.out.println("a2 : " + a2.getName());
+		
+		System.out.println("a1 movies : ");
 		for (Movie m : a1.getMovies()) {
-			if(a2.getMovies().contains(m)) {
-				System.out.println("## " + m.getName());
-				return m;
+			for (Movie m2 : a2.getMovies()) {
+				if(m.equals(m2)) {
+					System.out.println("BIM !");
+					return m;
+				}
 			}
 		}
+//
+//		for (Movie m : a1.getMovies()) {
+//			if(a2.getMovies().contains(m)) {
+//				System.out.println("## " + m.getName());
+//				return m;
+//			}
+//		}
 		return null;
 	}
 
