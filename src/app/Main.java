@@ -9,7 +9,7 @@ import xmlParser.*;
 public class Main {
 	public static void main(String[] args) {
 		try {
-			File inputFile = new File("movies.xml");
+			File inputFile = new File("./res/movies.xml");
 			SAXParserFactory factory = SAXParserFactory.newInstance();
 			SAXParser saxParser = factory.newSAXParser();
 			SAXHandler userhandler = new SAXHandler();
