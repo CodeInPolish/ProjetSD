@@ -50,8 +50,10 @@ public class SAXHandler extends DefaultHandler {
 			if(year!=null) {
 				this.movie = new Movie(name, Integer.parseInt(year));
 
+			}else {
+				this.movie = new Movie(name, 0);
+
 			}
-			this.movie = new Movie(name, 0);
 			this.addListMovie(attributes.getValue("actors"));
 
 		}
