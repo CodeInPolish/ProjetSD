@@ -4,11 +4,14 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import exceptions.NoRouteBetweenSourceAndDestination;
 
@@ -47,39 +50,41 @@ public class Graph {
 	}
 
 	private List<Link> bfs(String start, String finish) {
-		ArrayDeque<Actor> openSet = new ArrayDeque<>();
-		ArrayDeque<Actor> closedSet = new ArrayDeque<>();
-		HashMap<Actor, Actor> meta = new HashMap<>();
+		Deque<Actor> openSet = new ArrayDeque<>();
+		Set<Actor> closedSet = new HashSet<>();
+		
+		Map<Actor, Actor> meta = new HashMap<>();
+		Set<Movie> closedMovieSet = new HashSet<>();
 
 		Actor startActor = actors.get(start);
 		Actor finishActor = actors.get(finish);
 
 		openSet.addLast(startActor);
+		closedSet.add(startActor);
+		meta.put(startActor, null);
 
 		while (!openSet.isEmpty()) {
 			Actor currentActor = openSet.removeFirst();
-
+			
 			if (finishActor.equals(currentActor)) {
 				return constructPath(startActor, meta, finishActor);
 			}
-
-			for (Movie m : startActor.getMovies()) {
-				for (Actor a : m.getActors()) {
-					if (closedSet.contains(a)) {
-						continue;
-					}
-
-					if (currentActor != a && !openSet.contains(a)) {
+			
+			for (Movie m : currentActor.getMovies()) {		
+				if(!closedMovieSet.contains(m)) {
+					System.out.println("movie: "+m.getName());
+					for (Actor a : m.getActors()) {
+						if (closedSet.contains(a)) {
+							continue;
+						}
 						meta.put(a, currentActor);
 						openSet.addLast(a);
 					}
+					closedMovieSet.add(m);
 				}
 			}
-
-			closedSet.addLast(currentActor);
-			System.out.println("currentActor: " + currentActor.getId());
+			closedSet.add(currentActor);
 		}
-
 		return null;
 	}
 
@@ -134,11 +139,11 @@ public class Graph {
 	private List<Link> constructPath(Actor start, Map<Actor, Actor> path, Actor finish) {
 		List<Actor> list = new ArrayList<Actor>();
 
+		System.out.println("Path found!");
 		Actor currentActor = finish;
-		while (currentActor != start) {
+		while (currentActor != null && currentActor != start) {
 			list.add(currentActor);
-			currentActor = actors.get(currentActor.getName());
-			System.out.println("blblbl");
+			currentActor = path.get(currentActor);
 		}
 
 		for (Actor a : list) {
