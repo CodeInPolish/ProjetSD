@@ -161,7 +161,7 @@ public class Graph {
 	private Movie getLink(Actor a1, Actor a2) {
 		
 		for (Movie m : a1.getMovies()) {
-			if(!a2.getMovies().contains(m)) {
+			if(a2.getMovies().contains(m)) {
 				System.out.println("## " + m.getName());
 				return m;
 			}
