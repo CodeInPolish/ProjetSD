@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import exceptions.NoRouteBetweenSourceAndDestination;
+import xmlParser.XMLWiriter;
 
 public class Graph {
 	private Map<String, Actor> actors;
@@ -133,6 +134,8 @@ public class Graph {
 	}
 
 	private void writeFile(List<Link> path, String file) {
+		XMLWiriter xw = new XMLWiriter();
+		xw.writeXMLResultFile(file, path);
 
 	}
 
