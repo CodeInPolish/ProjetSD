@@ -2,6 +2,7 @@ package xmlParser;
 
 import java.io.File;
 import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,26 +24,57 @@ import model.*;
 
 public class XMLWiriter {
 
-	private Map<String, Movie> movies;
-	private Map<String, Actor> actors;
-	private Map<String, Set<Actor>> path;
-
-	public XMLWiriter(Map<String, Movie> movies, Map<String, Actor> actors, Map<String, Set<Actor>> path) {
-		this.movies = movies;
-		this.actors = actors;
-		this.path = path;
+	public XMLWiriter() {
 	}
 
-	public void writeXMLResultFile(String filename, Deque<Actor> chemin, String source, String destination) {
+	public void writeXMLResultFile(String filename, List<Link> links) {
 		try {
+			
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.newDocument();
 
-			// TODO construction of xml file
+			// Element root - path
+			Element path = doc.createElement("path");
+			doc.appendChild(path);
 			
+			Attr attr = doc.createAttribute("cost");
+			int val = 0;
+			for (Link link : links) {
+				val+=link.getLink().getNbActor();
+			}
+//			chemin.forEach(t->val+=t.getLink().getNbActor());
+			attr.setValue(""+val);
+			path.setAttributeNode(attr);
 			
+			Attr attr2 = doc.createAttribute("nbMovies");
+			attr2.setValue(""+links.size());
+			path.setAttributeNode(attr2);
 			
+			for (Link link : links) {
+				
+				Element actor = doc.createElement("actor");
+				actor.appendChild(doc.createTextNode(link.getStart().getName()));
+				path.appendChild(actor);
+				
+				Element movie = doc.createElement("movie");
+				actor.appendChild(doc.createTextNode(link.getStart().getName()));
+				
+				Attr attrMovieName = doc.createAttribute("name");
+				attr.setValue(""+links.size());
+				movie.setAttributeNode(attrMovieName);
+				
+				Attr attrMovieYear = doc.createAttribute("year");
+				attr.setValue(""+link.getLink().getYear());
+				movie.setAttributeNode(attrMovieYear);
+				
+				path.appendChild(actor);
+
+				Element actor2 = doc.createElement("actor");
+				actor2.appendChild(doc.createTextNode(link.getFinish().getName()));
+				path.appendChild(actor2);
+
+			}
 
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -62,7 +94,7 @@ public class XMLWiriter {
 			transformer.transform(sources, consoleResult);
 
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		}
 
 	}

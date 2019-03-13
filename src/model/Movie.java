@@ -17,6 +17,10 @@ public class Movie {
 		this.year = year;
 		this.actors = new HashSet<Actor>();
 	}
+	
+	public int getNbActor() {
+		return actors.size();
+	}
 
 	public String getName() {
 		return name;
