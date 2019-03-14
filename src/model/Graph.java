@@ -16,7 +16,7 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import exceptions.NoRouteException;
-import xmlParser.XMLWiriter;
+import xmlParser.WriterXML;
 
 public class Graph {
 	private Map<String, Actor> actors;
@@ -148,7 +148,7 @@ public class Graph {
 	private void writeFile(List<Link> path, String file) {
 		Collections.reverse(path);
 		path.forEach(t -> System.out.println(t.toString()));
-		XMLWiriter xw = new XMLWiriter();
+		WriterXML xw = new WriterXML();
 		xw.writeXMLResultFile(file, path);
 
 	}

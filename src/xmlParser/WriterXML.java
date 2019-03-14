@@ -22,9 +22,9 @@ import org.w3c.dom.Element;
 
 import model.*;
 
-public class XMLWiriter {
+public class WriterXML {
 
-	public XMLWiriter() {
+	public WriterXML() {
 	}
 
 	public void writeXMLResultFile(String filename, List<Link> links) {
