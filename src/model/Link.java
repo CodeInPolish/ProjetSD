@@ -4,7 +4,7 @@ public class Link {
 	private Actor start;
 	private Movie link;
 	private Actor finish;
-	
+
 	public Link(Actor s, Movie l, Actor f) {
 		this.start = s;
 		this.link = l;
@@ -27,8 +27,4 @@ public class Link {
 	public String toString() {
 		return "Link [start=" + start + ", link=" + link + ", finish=" + finish + "]";
 	}
-	
-	
-	
-	
 }

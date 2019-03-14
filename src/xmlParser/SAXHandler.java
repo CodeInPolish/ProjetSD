@@ -24,7 +24,6 @@ public class SAXHandler extends DefaultHandler {
 
 	public SAXHandler() {
 		this.graph = new Graph();
-		this.start = System.currentTimeMillis();
 		this.actors = new HashMap<>();
 		this.movies = new HashMap<>();
 		this.actorsId = new HashMap<>();
@@ -32,6 +31,7 @@ public class SAXHandler extends DefaultHandler {
 
 	@Override
 	public void startDocument() throws SAXException {
+		this.start = System.currentTimeMillis();
 		System.out.println("Start reading !");
 		System.out.println("Graph constructing...");
 	}
@@ -47,10 +47,10 @@ public class SAXHandler extends DefaultHandler {
 			String name = attributes.getValue("name");
 			String year = attributes.getValue("year");
 			bName = true;
-			if(year!=null) {
+			if (year != null) {
 				this.movie = new Movie(name, Integer.parseInt(year));
 
-			}else {
+			} else {
 				this.movie = new Movie(name, 0);
 
 			}
@@ -82,7 +82,6 @@ public class SAXHandler extends DefaultHandler {
 
 	@Override
 	public void endDocument() throws SAXException {
-		// graphe set methode
 		this.graph.setActors(actors);
 		System.out.println("End reading ! : execution time: " + (System.currentTimeMillis() - start + "ms"));
 	}

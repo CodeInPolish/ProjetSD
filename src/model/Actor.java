@@ -7,33 +7,33 @@ public class Actor {
 	private String id;
 	private String name;
 	private Set<Movie> movies;
-	
+
 	public Actor() {
 		this.movies = new HashSet<Movie>();
 	}
-	
+
 	public Actor(String name, String id) {
 		this.name = name;
 		this.id = id;
 		this.movies = new HashSet<Movie>();
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getName() {
 		return this.name;
 	}
-	
+
 	public void addMovie(Movie m) {
 		movies.add(m);
 	}
-	
+
 	public boolean playedInMovie(Movie m) {
 		return movies.contains(m);
 	}
-	
+
 	public Set<Movie> getMovies() {
 		return movies;
 	}
@@ -75,5 +75,5 @@ public class Actor {
 	public String toString() {
 		return "Actor [id=" + id + ", name=" + name + "]";
 	}
-	
+
 }

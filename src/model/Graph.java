@@ -15,11 +15,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import exceptions.NoRouteBetweenSourceAndDestination;
+import exceptions.NoRouteException;
 import xmlParser.XMLWiriter;
 
 public class Graph {
 	private Map<String, Actor> actors;
+	private long startTime;
 
 	public Graph() {
 	}
@@ -32,30 +33,37 @@ public class Graph {
 		this.actors = actors;
 	}
 
-	public void calculerCheminLePlusCourt(String act1, String act2, String file)
-			throws NoRouteBetweenSourceAndDestination {
+	public void calculerCheminLePlusCourt(String act1, String act2, String file) throws NoRouteException {
 		List<Link> result = bfs(act1, act2);
 		if (result != null) {
 			writeFile(result, file);
 		} else {
-			throw new NoRouteBetweenSourceAndDestination();
+			throw new NoRouteException();
 		}
 	}
 
-	public void calculerCheminCoutMinimum(String act1, String act2, String file)
-			throws NoRouteBetweenSourceAndDestination {
+	public void calculerCheminCoutMinimum(String act1, String act2, String file) throws NoRouteException {
 		List<Link> result = dijkstra(act1, act2);
 		if (result != null) {
 			writeFile(result, file);
 		} else {
-			throw new NoRouteBetweenSourceAndDestination();
+			throw new NoRouteException();
 		}
 	}
 
+	/**
+	 * bfs algorithme
+	 * 
+	 * @param start  : name of source actor
+	 * @param finish : name of destination actor
+	 * @return path
+	 */
 	private List<Link> bfs(String start, String finish) {
+		this.startTime = System.currentTimeMillis();
+
 		Deque<Actor> openSet = new ArrayDeque<>();
 		Set<Actor> closedSet = new HashSet<>();
-		
+
 		Map<Actor, Actor> meta = new HashMap<>();
 		Set<Movie> closedMovieSet = new HashSet<>();
 
@@ -68,21 +76,22 @@ public class Graph {
 
 		while (!openSet.isEmpty()) {
 			Actor currentActor = openSet.removeFirst();
-			
+
 			if (finishActor.equals(currentActor)) {
+				// debug
+				System.out.println("End bfs ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 				return constructPath(startActor, meta, finishActor);
 			}
-			
-			for (Movie m : currentActor.getMovies()) {		
-				if(!closedMovieSet.contains(m)) {
-					//System.out.println("movie: "+m.getName());
+
+			for (Movie m : currentActor.getMovies()) {
+				if (!closedMovieSet.contains(m)) {
 					for (Actor a : m.getActors()) {
 						if (closedSet.contains(a)) {
 							continue;
 						}
 						meta.put(a, currentActor);
 						openSet.addLast(a);
-						closedSet.add(a);						
+						closedSet.add(a);
 					}
 					closedMovieSet.add(m);
 				}
@@ -91,29 +100,33 @@ public class Graph {
 		return null;
 	}
 
+	/**
+	 * dijkstra algorithme
+	 * 
+	 * @param start  : name of source actor
+	 * @param finish : name of destination actor
+	 * @return path
+	 */
 	private List<Link> dijkstra(String start, String finish) {
+		this.startTime = System.currentTimeMillis();
 
 		Map<Actor, Double> temporaryLabel = new HashMap<>();
 		Map<Actor, Double> definitiveLabel = new HashMap<>();
-		Map<Actor, Link> parents = new HashMap<>();
+		Map<Actor, Actor> parents = new HashMap<>();
 
 		// Parent array to store shortest path tree
 		Actor begening = actors.get(start);
 		Actor end = actors.get(finish);
 		Actor currentActor = begening;
 		temporaryLabel.put(currentActor, 0.0);
-		
-		
+
 		while (currentActor != end) {
-			
-			
 
 			// dijkstra algo
-			
-			
+
 			definitiveLabel.put(currentActor, temporaryLabel.get(currentActor));
 			temporaryLabel.remove(currentActor);
-			
+
 			if (temporaryLabel.isEmpty()) { // no path
 				return null;
 			} else {
@@ -121,60 +134,62 @@ public class Graph {
 						Comparator.comparing(Entry::getValue));
 				currentActor = min.getKey();
 			}
-						
 		}
-		
-		// path construction 
-		LinkedList<Link> pathStartFinish = new LinkedList<>();
-		Actor a = currentActor;
-		while(a!=begening) {
-			Link parent = parents.get(a);
-			pathStartFinish.push(parents.get(actors.get(parent.getFinish())));
-			a = actors.get(parent.getStart());
-		}
-		return pathStartFinish;
+		return null;
+
 	}
 
+	/**
+	 * Create the output files after bfs and dijkstra
+	 * 
+	 * @param path : path to write
+	 * @param file : name of the file to write in
+	 */
 	private void writeFile(List<Link> path, String file) {
 		Collections.reverse(path);
-		path.forEach(t->System.out.println(t.toString()));
+		path.forEach(t -> System.out.println(t.toString()));
 		XMLWiriter xw = new XMLWiriter();
 		xw.writeXMLResultFile(file, path);
 
 	}
 
+	/**
+	 * Build the path after bfs and dijkstra algorithme
+	 * 
+	 * @param start  : actor source
+	 * @param path   :
+	 * @param finish : actor destination
+	 * @return list : list of link (path)
+	 */
 	private List<Link> constructPath(Actor start, Map<Actor, Actor> path, Actor finish) {
 		List<Link> list = new LinkedList<Link>();
-
-
-		System.out.println("Path found! " + finish.getName() );
 		Actor currentActor = finish;
 		while (path.get(currentActor) != null) {
 			Movie tempMovie = getLink(path.get(currentActor), currentActor);
-			list.add(new Link(path.get(currentActor),tempMovie , currentActor));
+			list.add(new Link(path.get(currentActor), tempMovie, currentActor));
 			currentActor = path.get(currentActor);
-		}		
-		
+		}
 		return list;
 	}
-	
+
+	/**
+	 * Get the movie link between two actors
+	 * 
+	 * @param a1 : actor source
+	 * @param a2 : actor destination
+	 * @return m : the movie making link between both actor
+	 */
 	private Movie getLink(Actor a1, Actor a2) {
-		
-		System.out.println("a1 : " + a1.getName());
-		System.out.println("a2 : " + a2.getName());
-		
-		System.out.println("a1 movies : ");
 		for (Movie m : a1.getMovies()) {
 			for (Movie m2 : a2.getMovies()) {
-				if(m.equals(m2)) {
-					System.out.println("BIM !");
+				if (m.equals(m2)) {
 					return m;
 				}
 			}
 		}
-//
+
 //		for (Movie m : a1.getMovies()) {
-//			if(a2.getMovies().contains(m)) {
+//			if(a2.playedInMovie(m)) {
 //				System.out.println("## " + m.getName());
 //				return m;
 //			}

@@ -29,7 +29,7 @@ public class XMLWiriter {
 
 	public void writeXMLResultFile(String filename, List<Link> links) {
 		try {
-			
+
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.newDocument();
@@ -37,27 +37,29 @@ public class XMLWiriter {
 			// Element root - path
 			Element path = doc.createElement("path");
 			doc.appendChild(path);
-			
+
 			Attr attr = doc.createAttribute("cost");
 			int val = 0;
 			for (Link link : links) {
-				val+=link.getLink().getNbActor();
+				val += link.getLink().getNbActor();
 			}
-			attr.setValue(""+val);
+			attr.setValue("" + val);
 			path.setAttributeNode(attr);
-			
+
 			Attr attr2 = doc.createAttribute("nbMovies");
-			attr2.setValue(""+links.size());
+			attr2.setValue("" + links.size());
 			path.setAttributeNode(attr2);
-			
+
 			int cpt = 0;
+
+			// construction of xml element
 			for (Link link : links) {
-				if(cpt==0) {
+				if (cpt == 0) {
 					Element actor = doc.createElement("actor");
 					actor.appendChild(doc.createTextNode(link.getStart().getName()));
 					path.appendChild(actor);
 				}
-				
+
 				Element movie = doc.createElement("movie");
 				movie.appendChild(doc.createTextNode(link.getLink().getName()));
 				path.appendChild(movie);
@@ -65,13 +67,11 @@ public class XMLWiriter {
 				Attr attrMovieName = doc.createAttribute("name");
 				attrMovieName.setValue(link.getLink().getName());
 				movie.setAttributeNode(attrMovieName);
-				
-				Attr attrMovieYear = doc.createAttribute("year");
-				attrMovieYear.setValue(""+link.getLink().getYear());
-				movie.setAttributeNode(attrMovieYear);
-			
 
-				
+				Attr attrMovieYear = doc.createAttribute("year");
+				attrMovieYear.setValue("" + link.getLink().getYear());
+				movie.setAttributeNode(attrMovieYear);
+
 				Element actor2 = doc.createElement("actor");
 				actor2.appendChild(doc.createTextNode(link.getFinish().getName()));
 				path.appendChild(actor2);
@@ -89,10 +89,11 @@ public class XMLWiriter {
 			DocumentType doctype = domImpl.createDocumentType("doctype", null, "result.dtd");
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doctype.getSystemId());
 			DOMSource sources = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(filename));
+			StreamResult result = new StreamResult(new File("./output/" + filename));
 			transformer.transform(sources, result);
 
 			// Output to console for testing
+			// should be removed
 			StreamResult consoleResult = new StreamResult(System.out);
 			transformer.transform(sources, consoleResult);
 
