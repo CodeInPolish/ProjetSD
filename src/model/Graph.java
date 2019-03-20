@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import exceptions.NoRouteException;
 import xmlParser.WriterXML;
@@ -97,6 +99,19 @@ public class Graph {
 		return null;
 	}
 
+	private Comparator<Actor> comparator = new Comparator<Actor>() {
+		@Override
+		public int compare(Actor a1, Actor a2) {
+			int costA1 = a1.getCost();
+			int costA2 = a2.getCost();
+			if(costA1 != costA2) {
+				return costA1 - costA2;
+			} else {
+				return a1.hashCode() - a2.hashCode();
+			}
+		}
+	};
+	
 	/**
 	 * dijkstra algorithme
 	 * 
@@ -107,7 +122,7 @@ public class Graph {
 	private List<Link> dijkstra(String start, String finish) {
 		this.startTime = System.currentTimeMillis();
 
-		Map<Actor, Integer> temporaryLabel = new HashMap<Actor, Integer>();
+		SortedMap<Actor, Integer> temporaryLabel = new TreeMap<Actor, Integer>(comparator);
 		Map<Actor, Integer> definitiveLabel = new HashMap<>();
 		Map<Actor, Actor> parents = new HashMap<>();
 		Map<Actor, Movie> links = new HashMap<>();
@@ -126,13 +141,15 @@ public class Graph {
 					for (Actor a : m.getActors()) {
 						if (temporaryLabel.containsKey(a)) {
 							if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
-								temporaryLabel.replace(a, definitiveLabel.get(currentActor) + m.getNbActor());
+								a.setCost(definitiveLabel.get(currentActor) + m.getNbActor());
+								temporaryLabel.replace(a, a.getCost());
 								parents.replace(a, currentActor);
 								links.put(a, m);
 							}
 						}
 						else if (!definitiveLabel.containsKey(a) && !temporaryLabel.containsKey(a)) {
-							temporaryLabel.put(a, definitiveLabel.get(currentActor) + m.getNbActor());
+							a.setCost(definitiveLabel.get(currentActor) + m.getNbActor());
+							temporaryLabel.put(a, a.getCost());
 							parents.put(a, currentActor);
 							links.put(a, m);
 						}
@@ -141,10 +158,10 @@ public class Graph {
 				}
 			}
 
-			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
-					Comparator.comparing(Entry::getValue));
+//			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
+//					Comparator.comparing(Entry::getValue));
 
-			currentActor = min.getKey();
+			currentActor = temporaryLabel.firstKey();
 			if (currentActor.equals(end)) {
 				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 				return constructPath(begening, parents, links, end);

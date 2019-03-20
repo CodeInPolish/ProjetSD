@@ -7,6 +7,15 @@ public class Actor {
 	private String id;
 	private String name;
 	private Set<Movie> movies;
+	private int cost;
+
+	public int getCost() {
+		return cost;
+	}
+
+	public void setCost(int cost) {
+		this.cost = cost;
+	}
 
 	public Actor() {
 		this.movies = new HashSet<Movie>();
