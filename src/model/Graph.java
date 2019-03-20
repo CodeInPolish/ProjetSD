@@ -63,8 +63,8 @@ public class Graph {
 
 		Deque<Actor> openSet = new ArrayDeque<>();
 		Set<Actor> closedSet = new HashSet<>();
-
 		Map<Actor, Actor> meta = new HashMap<>();
+		Map<Actor, Movie> link = new HashMap<>();
 		Set<Movie> closedMovieSet = new HashSet<>();
 
 		Actor startActor = actors.get(start);
@@ -80,7 +80,7 @@ public class Graph {
 			if (finishActor.equals(currentActor)) {
 				// debug
 				System.out.println("End bfs ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
-				return constructPath(startActor, meta, finishActor);
+				return constructPath(startActor, meta, link, finishActor);
 			}
 
 			for (Movie m : currentActor.getMovies()) {
@@ -90,6 +90,7 @@ public class Graph {
 							continue;
 						}
 						meta.put(a, currentActor);
+						link.put(a, m);
 						openSet.addLast(a);
 						closedSet.add(a);
 					}
@@ -141,13 +142,12 @@ public class Graph {
 					}
 
 					closedMovieSet.add(m);
-
 				}
 
 			}
 			if (currentActor.equals(end)) {
 				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
-				return constructPath(begening, parents, end);
+				return new LinkedList<Link> ();//constructPath(begening, parents, end);
 			}
 
 			definitiveLabel.put(currentActor, temporaryLabel.get(currentActor));
@@ -184,12 +184,11 @@ public class Graph {
 	 * @param finish : actor destination
 	 * @return list : list of link (path)
 	 */
-	private List<Link> constructPath(Actor start, Map<Actor, Actor> path, Actor finish) {
+	private List<Link> constructPath(Actor start, Map<Actor, Actor> path, Map<Actor, Movie> link, Actor finish) {
 		List<Link> list = new LinkedList<Link>();
 		Actor currentActor = finish;
 		while (path.get(currentActor) != null) {
-			Movie tempMovie = getLink(path.get(currentActor), currentActor);
-			list.add(new Link(path.get(currentActor), tempMovie, currentActor));
+			list.add(new Link(path.get(currentActor), link.get(currentActor), currentActor));
 			currentActor = path.get(currentActor);
 		}
 		return list;
