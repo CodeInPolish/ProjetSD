@@ -1,4 +1,4 @@
-<!ELEMENT path (actor+, movie+)>
+<!ELEMENT path (actor?, movie?)+>
 <!ATTLIST path 
 cost CDATA #REQUIRED
 nbMovies CDATA #REQUIRED>
