@@ -9,11 +9,14 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 import exceptions.NoRouteException;
 import xmlParser.WriterXML;
@@ -101,6 +104,18 @@ public class Graph {
 		return null;
 	}
 
+//	private Comparator<Movie> comparator = new Comparator<Movie>() {
+//
+//		@Override
+//		public int compare(Movie m1, Movie m2) {
+//			int difference = m1.getNbActor() - m2.getNbActor();
+//			if(difference != 0) {
+//				return difference;
+//			}
+//			return 0;
+//		}
+//	}
+
 	/**
 	 * dijkstra algorithme
 	 * 
@@ -111,9 +126,10 @@ public class Graph {
 	private List<Link> dijkstra(String start, String finish) {
 		this.startTime = System.currentTimeMillis();
 
-		Map<Actor, Integer> temporaryLabel = new HashMap<>();
+		Map<Actor, Integer> temporaryLabel = new HashMap<Actor, Integer>();
 		Map<Actor, Integer> definitiveLabel = new HashMap<>();
 		Map<Actor, Actor> parents = new HashMap<>();
+		Map<Actor, Movie> links = new HashMap<>();
 		Set<Movie> closedMovieSet = new HashSet<>();
 
 		// Parent array to store shortest path tree
@@ -127,15 +143,17 @@ public class Graph {
 			for (Movie m : currentActor.getMovies()) {
 				if (!closedMovieSet.contains(m)) {
 					for (Actor a : m.getActors()) {
-						if (!definitiveLabel.containsKey(a)) {
-							if (temporaryLabel.containsKey(a)) {
-								if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
-									temporaryLabel.put(a, definitiveLabel.get(currentActor) + m.getNbActor());
-									parents.put(a, currentActor);
-								}
+						// if (!definitiveLabel.containsKey(a)) {
+						if (temporaryLabel.containsKey(a)) {
+							if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
+								temporaryLabel.replace(a, definitiveLabel.get(currentActor) + m.getNbActor());
+								parents.replace(a, currentActor);
+								links.replace(a, m);
 							}
+						}
 
-						} else {
+						// }
+						else if (!definitiveLabel.containsKey(a) && !temporaryLabel.containsKey(a)) {
 							temporaryLabel.put(a, definitiveLabel.get(currentActor) + m.getNbActor());
 							parents.put(a, currentActor);
 						}
@@ -145,17 +163,21 @@ public class Graph {
 				}
 
 			}
+
+			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
+					Comparator.comparing(Entry::getValue));
+
+			currentActor = min.getKey();
 			if (currentActor.equals(end)) {
+				System.out
+						.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
+				return constructPath(begening, parents, end);
 				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 				return new LinkedList<Link> ();//constructPath(begening, parents, end);
 			}
-
 			definitiveLabel.put(currentActor, temporaryLabel.get(currentActor));
 			temporaryLabel.remove(currentActor);
-			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
-					Comparator.comparing(Entry::getValue));
-			currentActor = min.getKey();
-			//currentActor = temporaryLabel.
+
 		}
 
 		return null;
