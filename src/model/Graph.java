@@ -110,31 +110,54 @@ public class Graph {
 	private List<Link> dijkstra(String start, String finish) {
 		this.startTime = System.currentTimeMillis();
 
-		Map<Actor, Double> temporaryLabel = new HashMap<>();
-		Map<Actor, Double> definitiveLabel = new HashMap<>();
+		Map<Actor, Integer> temporaryLabel = new HashMap<>();
+		Map<Actor, Integer> definitiveLabel = new HashMap<>();
 		Map<Actor, Actor> parents = new HashMap<>();
+		Set<Movie> closedMovieSet = new HashSet<>();
 
 		// Parent array to store shortest path tree
 		Actor begening = actors.get(start);
 		Actor end = actors.get(finish);
 		Actor currentActor = begening;
-		temporaryLabel.put(currentActor, 0.0);
+		temporaryLabel.put(currentActor, 0);
+		definitiveLabel.put(currentActor, 0);
 
-		while (currentActor != end) {
+		while (!temporaryLabel.isEmpty()) {
+			for (Movie m : currentActor.getMovies()) {
+				if (!closedMovieSet.contains(m)) {
+					for (Actor a : m.getActors()) {
+						if (!definitiveLabel.containsKey(a)) {
+							if (temporaryLabel.containsKey(a)) {
+								if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
+									temporaryLabel.put(a, definitiveLabel.get(currentActor) + m.getNbActor());
+									parents.put(a, currentActor);
+								}
+							}
 
-			// dijkstra algo
+						} else {
+							temporaryLabel.put(a, definitiveLabel.get(currentActor) + m.getNbActor());
+							parents.put(a, currentActor);
+						}
+					}
+
+					closedMovieSet.add(m);
+
+				}
+
+			}
+			if (currentActor.equals(end)) {
+				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
+				return constructPath(begening, parents, end);
+			}
 
 			definitiveLabel.put(currentActor, temporaryLabel.get(currentActor));
 			temporaryLabel.remove(currentActor);
-
-			if (temporaryLabel.isEmpty()) { // no path
-				return null;
-			} else {
-				Entry<Actor, Double> min = Collections.min(temporaryLabel.entrySet(),
-						Comparator.comparing(Entry::getValue));
-				currentActor = min.getKey();
-			}
+			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
+					Comparator.comparing(Entry::getValue));
+			currentActor = min.getKey();
+			//currentActor = temporaryLabel.
 		}
+
 		return null;
 
 	}

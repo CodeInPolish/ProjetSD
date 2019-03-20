@@ -18,8 +18,7 @@ public class Main {
 			Graph g = userhandler.getGraph();
 
 			g.calculerCheminLePlusCourt("Macaulay Culkin", "Guillaume Canet", "output.xml");
-			// g.calculerCheminCoutMinimum("Macaulay Culkin", "Guillaume Canet",
-			// "output2.xml");
+			g.calculerCheminCoutMinimum("Macaulay Culkin", "Guillaume Canet", "output2.xml");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
