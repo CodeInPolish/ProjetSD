@@ -2,10 +2,10 @@
 <!DOCTYPE path SYSTEM "result.dtd">
 <path cost="303" nbMovies="3">
 <actor>Macaulay Culkin</actor>
-<movie name="Home Alone" year="1990">Home Alone</movie>
+<movie name="Home Alone" year="1990"/>
 <actor>Gerry Becker</actor>
-<movie name="Celebrity" year="1998">Celebrity</movie>
+<movie name="Celebrity" year="1998"/>
 <actor>Leonardo DiCaprio</actor>
-<movie name="Beach, The" year="2000">Beach, The</movie>
+<movie name="Beach, The" year="2000"/>
 <actor>Guillaume Canet</actor>
 </path>
