@@ -1,0 +1,9 @@
+<!ELEMENT movies (actor+, movie+)>
+<!ELEMENT actor (#PCDATA)>
+<!ATTLIST actor 
+id ID #REQUIRED
+name CDATA #REQUIRED>
+<!ELEMENT movie (#PCDATA)>
+<!ATTLIST movie 
+year CDATA #IMPLIED
+actors IDREFS #REQUIRED>

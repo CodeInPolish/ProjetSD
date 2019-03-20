@@ -1,22 +1,16 @@
 package model;
 
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 import exceptions.NoRouteException;
 import xmlParser.WriterXML;
@@ -81,7 +75,6 @@ public class Graph {
 			Actor currentActor = openSet.removeFirst();
 
 			if (finishActor.equals(currentActor)) {
-				// debug
 				System.out.println("End bfs ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 				return constructPath(startActor, meta, link, finishActor);
 			}
