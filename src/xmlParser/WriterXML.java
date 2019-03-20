@@ -61,7 +61,6 @@ public class WriterXML {
 				}
 
 				Element movie = doc.createElement("movie");
-				movie.appendChild(doc.createTextNode(link.getLink().getName()));
 				path.appendChild(movie);
 
 				Attr attrMovieName = doc.createAttribute("name");
