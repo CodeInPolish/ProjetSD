@@ -1,0 +1,11 @@
+<!ELEMENT path (actor+, movie+)>
+<!ATTLIST path 
+cost CDATA #REQUIRED
+nbMovies CDATA #REQUIRED>
+
+<!ELEMENT actor (#PCDATA)>
+
+<!ELEMENT movie EMPTY>
+<!ATTLIST movie 
+name CDATA #REQUIRED
+year CDATA #IMPLIED>
