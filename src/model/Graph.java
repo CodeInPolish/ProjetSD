@@ -107,7 +107,7 @@ public class Graph {
 			if(costA1 != costA2) {
 				return costA1 - costA2;
 			} else {
-				return a1.hashCode() - a2.hashCode();
+				return a1.getId().compareTo(a2.getId());
 			}
 		}
 	};
@@ -132,6 +132,7 @@ public class Graph {
 		Actor begening = actors.get(start);
 		Actor end = actors.get(finish);
 		Actor currentActor = begening;
+		currentActor.setCost(0);
 		temporaryLabel.put(currentActor, 0);
 		definitiveLabel.put(currentActor, 0);
 
@@ -142,8 +143,8 @@ public class Graph {
 						if (temporaryLabel.containsKey(a)) {
 							if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
 								a.setCost(definitiveLabel.get(currentActor) + m.getNbActor());
-								temporaryLabel.replace(a, a.getCost());
-								parents.replace(a, currentActor);
+								temporaryLabel.put(a, a.getCost());
+								parents.put(a, currentActor);
 								links.put(a, m);
 							}
 						}
@@ -157,9 +158,6 @@ public class Graph {
 					closedMovieSet.add(m);
 				}
 			}
-
-//			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
-//					Comparator.comparing(Entry::getValue));
 
 			currentActor = temporaryLabel.firstKey();
 			if (currentActor.equals(end)) {
