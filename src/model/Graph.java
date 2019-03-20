@@ -142,6 +142,7 @@ public class Graph {
 					for (Actor a : m.getActors()) {
 						if (temporaryLabel.containsKey(a)) {
 							if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
+								temporaryLabel.remove(a); 
 								a.setCost(definitiveLabel.get(currentActor) + m.getNbActor());
 								temporaryLabel.put(a, a.getCost());
 								parents.put(a, currentActor);
@@ -158,13 +159,16 @@ public class Graph {
 					closedMovieSet.add(m);
 				}
 			}
+			
 
 			currentActor = temporaryLabel.firstKey();
+			if(currentActor.getName().equals("John M. Watson Sr."))
+				System.out.println("haaa");
 			if (currentActor.equals(end)) {
 				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 				return constructPath(begening, parents, links, end);
 			}
-			definitiveLabel.put(currentActor, temporaryLabel.get(currentActor));
+			definitiveLabel.put(currentActor, currentActor.getCost());
 			temporaryLabel.remove(currentActor);
 
 		}

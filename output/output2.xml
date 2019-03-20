@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE path SYSTEM "result.dtd">
 <path cost="91" nbMovies="4">
-	<actor>Macaulay Culkin</actor>
-	<movie name="Good Son, The" year="1993" />
-	<actor>Elijah Wood</actor>
-	<movie name="Eternal Sunshine of the Spotless Mind" year="2004" />
-	<actor>Tom Wilkinson(I)</actor>
-	<movie name="Ghost and the Darkness, The" year="1996" />
-	<actor>Alex Ferns</actor>
-	<movie name="Joyeux Noël" year="2005" />
-	<actor>Guillaume Canet</actor>
+<actor>Macaulay Culkin</actor>
+<movie name="Good Son, The" year="1993"/>
+<actor>Elijah Wood</actor>
+<movie name="Eternal Sunshine of the Spotless Mind" year="2004"/>
+<actor>Tom Wilkinson(I)</actor>
+<movie name="Ghost and the Darkness, The" year="1996"/>
+<actor>Alex Ferns</actor>
+<movie name="Joyeux Noël" year="2005"/>
+<actor>Guillaume Canet</actor>
 </path>
