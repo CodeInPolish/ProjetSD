@@ -104,18 +104,6 @@ public class Graph {
 		return null;
 	}
 
-//	private Comparator<Movie> comparator = new Comparator<Movie>() {
-//
-//		@Override
-//		public int compare(Movie m1, Movie m2) {
-//			int difference = m1.getNbActor() - m2.getNbActor();
-//			if(difference != 0) {
-//				return difference;
-//			}
-//			return 0;
-//		}
-//	}
-
 	/**
 	 * dijkstra algorithme
 	 * 
@@ -143,25 +131,21 @@ public class Graph {
 			for (Movie m : currentActor.getMovies()) {
 				if (!closedMovieSet.contains(m)) {
 					for (Actor a : m.getActors()) {
-						// if (!definitiveLabel.containsKey(a)) {
 						if (temporaryLabel.containsKey(a)) {
 							if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
 								temporaryLabel.replace(a, definitiveLabel.get(currentActor) + m.getNbActor());
 								parents.replace(a, currentActor);
-								links.replace(a, m);
+								links.put(a, m);
 							}
 						}
-
-						// }
 						else if (!definitiveLabel.containsKey(a) && !temporaryLabel.containsKey(a)) {
 							temporaryLabel.put(a, definitiveLabel.get(currentActor) + m.getNbActor());
 							parents.put(a, currentActor);
+							links.put(a, m);
 						}
 					}
-
 					closedMovieSet.add(m);
 				}
-
 			}
 
 			Entry<Actor, Integer> min = Collections.min(temporaryLabel.entrySet(),
@@ -169,11 +153,8 @@ public class Graph {
 
 			currentActor = min.getKey();
 			if (currentActor.equals(end)) {
-				System.out
-						.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
-				return constructPath(begening, parents, end);
 				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
-				return new LinkedList<Link> ();//constructPath(begening, parents, end);
+				return constructPath(begening, parents, links, end);
 			}
 			definitiveLabel.put(currentActor, temporaryLabel.get(currentActor));
 			temporaryLabel.remove(currentActor);
@@ -214,31 +195,6 @@ public class Graph {
 			currentActor = path.get(currentActor);
 		}
 		return list;
-	}
-
-	/**
-	 * Get the movie link between two actors
-	 * 
-	 * @param a1 : actor source
-	 * @param a2 : actor destination
-	 * @return m : the movie making link between both actor
-	 */
-	private Movie getLink(Actor a1, Actor a2) {
-		for (Movie m : a1.getMovies()) {
-			for (Movie m2 : a2.getMovies()) {
-				if (m.equals(m2)) {
-					return m;
-				}
-			}
-		}
-
-//		for (Movie m : a1.getMovies()) {
-//			if(a2.playedInMovie(m)) {
-//				System.out.println("## " + m.getName());
-//				return m;
-//			}
-//		}
-		return null;
 	}
 
 }
