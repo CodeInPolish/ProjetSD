@@ -162,8 +162,6 @@ public class Graph {
 			
 
 			currentActor = temporaryLabel.firstKey();
-			if(currentActor.getName().equals("John M. Watson Sr."))
-				System.out.println("haaa");
 			if (currentActor.equals(end)) {
 				System.out.println("End dijkstra ! : execution time: " + (System.currentTimeMillis() - startTime) + "ms");
 				return constructPath(begening, parents, links, end);
