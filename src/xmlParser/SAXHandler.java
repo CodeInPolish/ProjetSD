@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import model.Actor;
@@ -32,8 +31,8 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void startDocument() throws SAXException {
 		this.start = System.currentTimeMillis();
-		System.out.println("Start reading !");
-		System.out.println("Graph constructing...");
+		System.out.println("\n\t- Start XML file parsing !");
+		System.out.println("\t\t- Graph constructing...");
 	}
 
 	@Override
@@ -83,7 +82,8 @@ public class SAXHandler extends DefaultHandler {
 	@Override
 	public void endDocument() throws SAXException {
 		this.graph.setActors(actors);
-		System.out.println("End reading ! : execution time: " + (System.currentTimeMillis() - start + "ms"));
+		System.out.println("\t\t- Graph construct in : " + (System.currentTimeMillis() - start + "ms"));
+
 	}
 
 	private void addListMovie(String list) {

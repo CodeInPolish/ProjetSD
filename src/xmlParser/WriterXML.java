@@ -1,10 +1,7 @@
 package xmlParser;
 
 import java.io.File;
-import java.util.Deque;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -20,7 +17,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentType;
 import org.w3c.dom.Element;
 
-import model.*;
+import model.Link;
 
 public class WriterXML {
 
@@ -92,9 +89,9 @@ public class WriterXML {
 			transformer.transform(sources, result);
 
 			// Output to console for testing
-			// should be removed
-			StreamResult consoleResult = new StreamResult(System.out);
-			transformer.transform(sources, consoleResult);
+//			StreamResult consoleResult = new StreamResult(System.out);
+//			transformer.transform(sources, consoleResult);
+			System.out.println("\n\t\t- Output correctly wrote in XML files !");
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -13,9 +13,9 @@ public class Movie {
 	}
 
 	public Movie(String name, int year) {
+		this();
 		this.name = name;
 		this.year = year;
-		this.actors = new HashSet<Actor>();
 	}
 
 	public int getNbActor() {

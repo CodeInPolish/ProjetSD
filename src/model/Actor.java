@@ -22,9 +22,9 @@ public class Actor {
 	}
 
 	public Actor(String name, String id) {
+		this();
 		this.name = name;
 		this.id = id;
-		this.movies = new HashSet<Movie>();
 	}
 
 	public void setName(String name) {
