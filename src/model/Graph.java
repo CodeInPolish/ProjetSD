@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -94,10 +95,14 @@ public class Graph {
 				System.out.println("\n\t- BFS executed in : " + (System.currentTimeMillis() - startTime) + "ms");
 				return constructPath(startActor, meta, link, finishActor);
 			}
-
-			for (Movie m : currentActor.getMovies()) {
+			
+			Iterator<Movie> itMovie = currentActor.getMovies();
+			while (itMovie.hasNext()) {
+				Movie m = itMovie.next();
 				if (!closedMovieSet.contains(m)) {
-					for (Actor a : m.getActors()) {
+					Iterator<Actor> itActor = m.getActors();
+					while (itActor.hasNext()) {
+						Actor a = itActor.next();
 						if (closedSet.contains(a)) {
 							continue;
 						}
@@ -153,9 +158,13 @@ public class Graph {
 		definitiveLabel.put(currentActor, 0);
 
 		while (!temporaryLabel.isEmpty()) {
-			for (Movie m : currentActor.getMovies()) {
+			Iterator<Movie> itMovie = currentActor.getMovies();
+			while (itMovie.hasNext()) {
+				Movie m = itMovie.next();
 				if (!closedMovieSet.contains(m)) {
-					for (Actor a : m.getActors()) {
+					Iterator<Actor> itActor = m.getActors();
+					while (itActor.hasNext()) {
+						Actor a = itActor.next();
 						if (temporaryLabel.containsKey(a)) {
 							if (temporaryLabel.get(a) > definitiveLabel.get(currentActor) + m.getNbActor()) {
 								temporaryLabel.remove(a);

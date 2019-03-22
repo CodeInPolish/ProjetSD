@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Movie {
@@ -46,8 +47,8 @@ public class Movie {
 		return this.actors.contains(a);
 	}
 
-	public Set<Actor> getActors() {
-		return this.actors;
+	public Iterator<Actor> getActors() {
+		return this.actors.iterator();
 	}
 
 	@Override

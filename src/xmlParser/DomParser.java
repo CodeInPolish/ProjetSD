@@ -16,7 +16,7 @@ import model.Actor;
 import model.Graph;
 import model.Movie;
 
-public class DomParse {
+public class DomParser {
 	private Map<String, Actor> actors;
 	private Map<String, Movie> movies;
 	private Map<String, String> actorsId;
@@ -24,7 +24,7 @@ public class DomParse {
 	private Actor actor;
 	private Movie movie;
 
-	public DomParse() {
+	public DomParser() {
 		this.graph = new Graph();
 		this.actors = new HashMap<>();
 		this.movies = new HashMap<>();

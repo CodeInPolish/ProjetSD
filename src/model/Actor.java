@@ -1,6 +1,7 @@
 package model;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Actor {
@@ -43,8 +44,8 @@ public class Actor {
 		return movies.contains(m);
 	}
 
-	public Set<Movie> getMovies() {
-		return movies;
+	public Iterator<Movie> getMovies() {
+		return movies.iterator();
 	}
 
 	public String getId() {
